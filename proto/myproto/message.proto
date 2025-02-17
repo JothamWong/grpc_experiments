@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package protobenchmark;
+
+// message M0 {}
+
+message M1 { int32 arg1 = 1; }
+
+message M2 {
+  int32 arg1 = 1;
+  int32 arg2 = 2;
+}
+
+message M3 {
+  int32 arg1 = 1;
+  int32 arg2 = 2;
+  int32 arg3 = 3;
+}
+
+service Messages {
+  rpc GetM0(google.protobuf.Empty) returns (google.protobuf.Empty);
+  rpc GetM1(M1) returns (M1);
+  rpc GetM2(M2) returns (M2);
+  rpc GetM3(M3) returns (M3);
+}
