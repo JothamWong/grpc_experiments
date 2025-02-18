@@ -1,3 +1,5 @@
+#include "Statistics.hpp"
+
 #include <ctime>
 #include <functional>
 #include <ios>
@@ -28,102 +30,6 @@ using std::chrono::milliseconds;
 #define NUM_ITERATIONS 1000
 // #define NUM_ITERATIONS 100000
 
-class Statistics {
-private:
-  std::vector<double> measurements;
-
-  std::string getTimestamp() const {
-    auto now = std::chrono::system_clock::now();
-    auto now_time = std::chrono::system_clock::to_time_t(now);
-    std::stringstream ss;
-    ss << std::put_time(std::localtime(&now_time), "%Y%m%d_%H%M%S");
-    return ss.str();
-  }
-
-public:
-  void addMeasurement(double duration) { measurements.push_back(duration); }
-
-  double getMean() const {
-    if (measurements.empty())
-      return 0.0;
-    double sum = 0.0;
-    for (const auto &measurement : measurements) {
-      sum += measurement;
-    }
-    return sum / measurements.size();
-  }
-
-  double getStdDev() const {
-    if (measurements.size() < 2)
-      return 0.0;
-    double mean = getMean();
-    double sumSquaredDiff = 0.0;
-
-    for (const auto &measurement : measurements) {
-      double diff = measurement - mean;
-      sumSquaredDiff += diff * diff;
-    }
-
-    return std::sqrt(sumSquaredDiff / (measurements.size() - 1));
-  }
-
-  double getMin() const {
-    if (measurements.empty())
-      return 0.0;
-    return *std::min_element(measurements.begin(), measurements.end());
-  }
-
-  // Get the maximum execution time
-  double getMax() const {
-    if (measurements.empty())
-      return 0.0;
-    return *std::max_element(measurements.begin(), measurements.end());
-  }
-
-  double getMedian() const {
-    if (measurements.empty())
-      return 0.0;
-
-    std::vector<double> sorted = measurements;
-    std::sort(sorted.begin(), sorted.end());
-
-    if (sorted.size() % 2 == 0) {
-      return (sorted[sorted.size() / 2 - 1] + sorted[sorted.size() / 2]) / 2.0;
-    } else {
-      return sorted[sorted.size() / 2];
-    }
-  }
-
-  size_t getSampleSize() const { return measurements.size(); }
-
-  void printResults(std::string name) const {
-    std::cout << "\nBenchmark Results for: " << name << "\n";
-    std::cout << "Sample Size: " << getSampleSize() << " iterations\n";
-    std::cout << "Mean: " << getMean() << " ms\n";
-    std::cout << "Median: " << getMedian() << " ms\n";
-    std::cout << "Std Dev: " << getStdDev() << " ms\n";
-    std::cout << "Min: " << getMin() << " ms\n";
-    std::cout << "Max: " << getMax() << " ms\n";
-  }
-
-  bool writeToCSV(const std::string &name) const {
-    std::string filename = name + "_" + getTimestamp() + ".csv";
-    std::ofstream file(filename);
-    if (!file.is_open()) {
-      std::cerr << "Error: could not open file " << filename
-                << " for writing\n";
-      return false;
-    }
-
-    for (size_t i = 0; i < measurements.size(); i++) {
-      file << measurements[i] << "\n";
-    }
-    file.close();
-    std::cout << "Results written to: " << filename << "\n";
-    return true;
-  }
-};
-
 template <typename RequestType, typename ResponseType>
 void benchmark_grpc_call(
     const std::string &name,
@@ -133,7 +39,7 @@ void benchmark_grpc_call(
     std::function<void(RequestType &)> setup_request,
     std::unique_ptr<protobenchmark::Messages::Stub> &stub, int num_iterations) {
   std::cout << "Benchmarking " << name << std::endl;
-  Statistics stats;
+  common::Statistics stats;
 
   for (int i = 0; i < num_iterations; i++) {
     std::cout << "Iteration " << i << std::endl;

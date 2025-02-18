@@ -16,8 +16,8 @@ source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 #
 # Target
 #
-add_executable(client ${SOURCES})
-target_link_libraries(client
+add_executable(tcp_test ${SOURCES})
+target_link_libraries(tcp_test
     PRIVATE
         common
         myproto
