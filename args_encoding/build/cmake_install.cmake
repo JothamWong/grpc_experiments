@@ -1,4 +1,4 @@
-# Install script for directory: /home/jotham/grpc_experiments
+# Install script for directory: /home/jotham/grpc_experiments/args_encoding
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -44,9 +44,9 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/jotham/grpc_experiments/build/client/cmake_install.cmake")
-  include("/home/jotham/grpc_experiments/build/server/cmake_install.cmake")
-  include("/home/jotham/grpc_experiments/build/proto/cmake_install.cmake")
+  include("/home/jotham/grpc_experiments/args_encoding/build/client/cmake_install.cmake")
+  include("/home/jotham/grpc_experiments/args_encoding/build/server/cmake_install.cmake")
+  include("/home/jotham/grpc_experiments/args_encoding/build/proto/cmake_install.cmake")
 
 endif()
 
@@ -58,5 +58,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/jotham/grpc_experiments/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/jotham/grpc_experiments/args_encoding/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

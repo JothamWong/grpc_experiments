@@ -6,13 +6,18 @@ package protobenchmark;
 
 // message M0 {}
 
+// Simple small types
+
+// 4 bytes
 message M1 { int32 arg1 = 1; }
 
+// 8 bytes
 message M2 {
   int32 arg1 = 1;
   int32 arg2 = 2;
 }
 
+// 12 bytes
 message M3 {
   int32 arg1 = 1;
   int32 arg2 = 2;

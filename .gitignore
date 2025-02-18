@@ -1,5 +1,6 @@
 .idea
-build/client
-build/CMakeFiles/
-build/proto
-build/server
+args_encoding/build/client
+args_encoding/build/CMakeFiles/
+args_encoding/build/proto
+args_encoding/build/server
+.cache
